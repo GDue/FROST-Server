@@ -1,7 +1,8 @@
 package de.fraunhofer.iosb.ilt.sta.security;
 
-import de.fraunhofer.iosb.ilt.sta.settings.CoreSettings;
-import de.fraunhofer.iosb.ilt.sta.settings.Settings;
+
+import de.fraunhofer.iosb.ilt.frostserver.settings.CoreSettings;
+import de.fraunhofer.iosb.ilt.frostserver.settings.Settings;
 
 public class SecurityManagerFactory {
 	

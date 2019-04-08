@@ -17,7 +17,7 @@
  */
 package de.fraunhofer.iosb.ilt.frostserver.http.common.multipart;
 
-import de.fraunhofer.iosb.ilt.sta.util.StringHelper;
+import de.fraunhofer.iosb.ilt.frostserver.util.StringHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class MixedContent implements Content {
             String contentType = request.getContentType();
             Matcher matcher = BOUNDARY_PATTERN.matcher(contentType);
             if (!matcher.find()) {
-                LOGGER.error("{}Could not find boundary in content type: {}", logIndent, contentType);
+                LOGGER.error("{}Could not find boundary in content type: {}", logIndent, StringHelper.cleanForLogging(contentType));
                 return false;
             }
             String boundaryHeader = matcher.group(1);

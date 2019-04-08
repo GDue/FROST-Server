@@ -5,7 +5,7 @@ jdk:
 branches:
   only:
   - master
-  - ActuatorRework
+  - integrationTests
   - "/^v[0-9]+(\\.[0-9]+)+/"
 
 install:
@@ -30,8 +30,8 @@ jobs:
     - stage: compile
       name: "Maven build"
       script:
-        - mvn package
-        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar; fi'
+        - mvn package -DskipTests -Dmaven.javadoc.skip=true
+        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar; fi'
     - stage: compile
       name: "Helm build"
       script:
