@@ -7,7 +7,7 @@
     -->
     <!-- service setting -->
     <Parameter override="false" name="ApiVersion" value="v1.0" description="The version tag of the API used in the URL."/>
-    <Parameter override="false" name="serviceRootUrl" value="http://localhost:8080/FROST-Server" description="The base URL of the SensorThings Server without version."/>
+    <Parameter override="false" name="serviceRootUrl" value="http://localhost:8080/FROST-Server.HTTP" description="The base URL of the SensorThings Server without version."/>
     <Parameter override="false" name="defaultCount" value="false" description="The default value for the $count query option."/>
     <Parameter override="false" name="defaultTop" value="100" description="The default value for the $top query option."/>
     <Parameter override="false" name="maxTop" value="1000" description="The maximum allowed value for the $top query option."/>
@@ -43,7 +43,7 @@
     <Parameter override="false" name="bus.busImplementationClass" value="de.fraunhofer.iosb.ilt.frostserver.messagebus.MqttMessageBus" description="The java class used for connecting to the message bus."/>
     <Parameter override="false" name="bus.mqttBroker" value="tcp://mosquitto:1883" description="The MQTT broker to use as message bus"/>
     <!-- persistence setting -->
-    <Parameter override="false" name="persistence.persistenceManagerImplementationClass" value="de.fraunhofer.iosb.ilt.sta.persistence.postgres.longid.PostgresPersistenceManagerLong" description="The java class used for persistence (must implement PersistenceManaher interface)"/>
+    <Parameter override="false" name="persistence.persistenceManagerImplementationClass" value="de.fraunhofer.iosb.ilt.sta.persistence.pgjooq.imp.PostgresPersistenceManagerLong" description="The java class used for persistence (must implement PersistenceManaher interface)"/>
     <!-- All options:
         de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerLong
         de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerString
@@ -58,6 +58,12 @@
         "ServerAndClientGenerated"  = Both, server and client generated ids, are allowed.
         "ClientGeneratedOnly"       = Client has to provide @iot.id to create entities.
     -->
+    
+    
+    <Parameter override="false" name="SecurityManager.ImplementationClassName" value="de.fraunhofer.iosb.ilt.sta.security.pgjooq.SecurityManager" description="Name of the security manager, empty string for none"/>
+    
+    
+    
     <Parameter override="false" name="persistence.autoUpdateDatabase" value="false" description="Automatically apply database updates."/>
     <Parameter override="false" name="persistence.alwaysOrderbyId" value="false" description="Always add an 'orderby=id asc' to queries to ensure consistent paging."/>
     <!-- JNDO Database connection. Does suppport connection pooling. -->
@@ -65,8 +71,8 @@
     <Resource
         name="jdbc/sensorThings" auth="Container"
         type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
-        url="jdbc:postgresql://database:5432/sensorthings"
-        username="sensorthings" password="ChangeMe"
+        url="jdbc:postgresql://localhost:5432/SecFrost"
+        username="SecFrost" password="SecFrost"
         maxTotal="20" maxIdle="10" maxWaitMillis="-1"
         defaultAutoCommit="false"
     />

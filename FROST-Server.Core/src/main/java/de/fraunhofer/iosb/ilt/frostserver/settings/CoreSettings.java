@@ -270,7 +270,7 @@ public class CoreSettings implements ConfigDefaults {
         httpSettings = new Settings(settings.getProperties(), PREFIX_HTTP, false);
         authSettings = new Settings(settings.getProperties(), PREFIX_AUTH, false);
         experimentalSettings = new Settings(settings.getProperties(), PREFIX_EXPERIMENTAL, false);
-        securitySettings = new Settings(settings.getProperties(), PREFIX_SECURITY, false);
+        securitySettings = new Settings(properties, PREFIX_SECURITY, false);
         if (mqttSettings.getTopicPrefix() == null || mqttSettings.getTopicPrefix().isEmpty()) {
             mqttSettings.setTopicPrefix(apiVersion + "/");
         }
