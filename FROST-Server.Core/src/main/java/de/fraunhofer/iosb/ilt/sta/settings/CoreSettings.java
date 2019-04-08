@@ -123,6 +123,7 @@ public class CoreSettings implements ConfigDefaults {
     public static final String PREFIX_AUTH = "auth.";
     public static final String PREFIX_EXPERIMENTAL = "experimental.";
     public static final String PREFIX_PERSISTENCE = "persistence.";
+    public static final String PREFIX_SECURITY = "SecurityManager.";
 
     /**
      * Root URL of the service to run.
@@ -196,6 +197,12 @@ public class CoreSettings implements ConfigDefaults {
      * The Experimental settings to use.
      */
     private Settings experimentalSettings;
+    /*
+     * the security manager settings to use;
+     */
+    private Settings securitySettings; 
+    
+    
 
     /**
      * The extensions, or other code parts that require Liquibase.
@@ -263,6 +270,7 @@ public class CoreSettings implements ConfigDefaults {
         httpSettings = new Settings(settings.getProperties(), PREFIX_HTTP, false);
         authSettings = new Settings(settings.getProperties(), PREFIX_AUTH, false);
         experimentalSettings = new Settings(settings.getProperties(), PREFIX_EXPERIMENTAL, false);
+        securitySettings = new Settings(settings.getProperties(), PREFIX_SECURITY, false);
         if (mqttSettings.getTopicPrefix() == null || mqttSettings.getTopicPrefix().isEmpty()) {
             mqttSettings.setTopicPrefix(apiVersion + "/");
         }
@@ -321,6 +329,10 @@ public class CoreSettings implements ConfigDefaults {
 
     public PersistenceSettings getPersistenceSettings() {
         return persistenceSettings;
+    }
+
+    public Settings getSecuritySettings() {
+        return securitySettings;
     }
 
     public String getServiceRootUrl() {

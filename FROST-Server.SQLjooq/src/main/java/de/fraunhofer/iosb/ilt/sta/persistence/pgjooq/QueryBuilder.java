@@ -47,6 +47,7 @@ import de.fraunhofer.iosb.ilt.sta.persistence.pgjooq.tables.AbstractTableThings;
 import de.fraunhofer.iosb.ilt.sta.persistence.pgjooq.tables.AbstractTableThingsLocations;
 import de.fraunhofer.iosb.ilt.sta.persistence.pgjooq.tables.StaTable;
 import de.fraunhofer.iosb.ilt.sta.persistence.pgjooq.tables.TableCollection;
+import de.fraunhofer.iosb.ilt.sta.security.pgjooq.SecurityManager;
 import de.fraunhofer.iosb.ilt.sta.query.Expand;
 import de.fraunhofer.iosb.ilt.sta.query.OrderBy;
 import de.fraunhofer.iosb.ilt.sta.query.Query;
@@ -68,6 +69,7 @@ import org.jooq.Record;
 import org.jooq.Record1;
 import org.jooq.ResultQuery;
 import org.jooq.SelectConditionStep;
+import org.jooq.SelectJoinStep;
 import org.jooq.SelectSeekStepN;
 import org.jooq.SelectSelectStep;
 import org.jooq.SelectWithTiesAfterOffsetStep;
@@ -136,6 +138,9 @@ public class QueryBuilder<J extends Comparable> implements ResourcePathVisitor {
     }
 
     public ResultQuery<Record> buildSelect() {
+    	
+    	SecurityManager sm=(de.fraunhofer.iosb.ilt.sta.security.pgjooq.SecurityManager)(this.staQuery.getSecurityManager());
+    	
         gatherData();
 
         if (sqlSelectFields == null) {
@@ -149,8 +154,15 @@ public class QueryBuilder<J extends Comparable> implements ResourcePathVisitor {
         } else {
             selectStep = dslContext.select(sqlSelectFields);
         }
-        SelectConditionStep<Record> whereStep = selectStep.from(sqlFrom)
-                .where(sqlWhere);
+        
+        SelectJoinStep<Record> joinStep=selectStep.from(sqlFrom);
+        if (sm!=null)
+        	joinStep=sm.addGetJoins(joinStep);
+        
+        SelectConditionStep<Record> whereStep = joinStep.where(sqlWhere);
+        if (sm!=null)
+        	whereStep=sm.addGetWhere(whereStep);
+        	
 
         final List<OrderField> sortFields = getSqlSortFields();
         SelectSeekStepN<Record> orderByStep = whereStep.orderBy(sortFields.toArray(new OrderField[sortFields.size()]));

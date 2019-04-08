@@ -19,6 +19,7 @@ package de.fraunhofer.iosb.ilt.frostserver.http.common;
 
 import de.fraunhofer.iosb.ilt.sta.messagebus.MessageBusFactory;
 import de.fraunhofer.iosb.ilt.sta.persistence.PersistenceManagerFactory;
+import de.fraunhofer.iosb.ilt.sta.security.SecurityManagerFactory;
 import de.fraunhofer.iosb.ilt.sta.settings.CoreSettings;
 import static de.fraunhofer.iosb.ilt.sta.settings.CoreSettings.TAG_CORE_SETTINGS;
 import de.fraunhofer.iosb.ilt.sta.settings.Settings;
@@ -83,6 +84,9 @@ public abstract class AbstractContextListener implements ServletContextListener 
             PersistenceManagerFactory.init(coreSettings);
             MessageBusFactory.init(coreSettings);
 
+            
+            SecurityManagerFactory.init(coreSettings);
+            
             setupAuthFilter(context, coreSettings);
         }
     }

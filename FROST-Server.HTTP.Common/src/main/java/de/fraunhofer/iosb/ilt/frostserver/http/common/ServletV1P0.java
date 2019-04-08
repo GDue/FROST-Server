@@ -19,12 +19,14 @@ package de.fraunhofer.iosb.ilt.frostserver.http.common;
 
 import de.fraunhofer.iosb.ilt.frostserver.http.common.multipart.BatchProcessor;
 import de.fraunhofer.iosb.ilt.frostserver.http.common.multipart.MixedContent;
+import de.fraunhofer.iosb.ilt.sta.security.SecurityManagerFactory;
 import de.fraunhofer.iosb.ilt.sta.service.RequestType;
 import de.fraunhofer.iosb.ilt.sta.service.Service;
 import de.fraunhofer.iosb.ilt.sta.service.ServiceRequest;
 import de.fraunhofer.iosb.ilt.sta.service.ServiceRequestBuilder;
 import de.fraunhofer.iosb.ilt.sta.service.ServiceResponse;
 import de.fraunhofer.iosb.ilt.sta.settings.CoreSettings;
+import de.fraunhofer.iosb.ilt.sta.security.SecurityManager;
 import static de.fraunhofer.iosb.ilt.sta.settings.CoreSettings.TAG_CORE_SETTINGS;
 import de.fraunhofer.iosb.ilt.sta.util.StringHelper;
 import de.fraunhofer.iosb.ilt.sta.util.UrlHelper;
@@ -136,7 +138,19 @@ public class ServletV1P0 extends HttpServlet {
     private void executeService(RequestType requestType, HttpServletRequest request, HttpServletResponse response) {
         CoreSettings coreSettings = (CoreSettings) request.getServletContext().getAttribute(TAG_CORE_SETTINGS);
         try (Service service = new Service(coreSettings)) {
-            sendResponse(service.execute(serviceRequestFromHttpRequest(coreSettings, request, requestType)), response);
+        	ServiceRequest serviceRequest=serviceRequestFromHttpRequest(coreSettings, request, requestType);
+        	
+            SecurityManager sm=SecurityManagerFactory.createSecurityManager();
+            if (sm!=null) {
+            	boolean refused=sm.init(request, response);
+            	if (refused)
+            		return;
+            }
+
+            serviceRequest.setSecurityManager(sm);
+        	
+        	ServiceResponse<Object> serviceResponse=service.execute(serviceRequest);
+            sendResponse(serviceResponse, response);
         } catch (Exception exc) {
             LOGGER.error("", exc);
             sendResponse(new ServiceResponse(500, exc.getMessage()), response);
@@ -156,7 +170,9 @@ public class ServletV1P0 extends HttpServlet {
         } else {
             pathInfo = request.getPathInfo();
         }
-
+        
+        
+        
         return new ServiceRequestBuilder(coreSettings.getFormatter())
                 .withRequestType(requestType)
                 .withUrlPath(pathInfo)

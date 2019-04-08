@@ -24,6 +24,7 @@ import de.fraunhofer.iosb.ilt.sta.path.PropertyPathElement;
 import de.fraunhofer.iosb.ilt.sta.path.ResourcePath;
 import de.fraunhofer.iosb.ilt.sta.path.ResourcePathElement;
 import de.fraunhofer.iosb.ilt.sta.query.expression.Expression;
+import de.fraunhofer.iosb.ilt.sta.security.SecurityManager;
 import de.fraunhofer.iosb.ilt.sta.settings.CoreSettings;
 import de.fraunhofer.iosb.ilt.sta.util.UrlHelper;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class Query {
     private List<Expand> expand;
     private List<OrderBy> orderBy;
     private String format;
+	private SecurityManager securityManager;
 
     public Query() {
         this(new CoreSettings());
@@ -332,5 +334,13 @@ public class Query {
             }
         }
     }
+
+	public void setSecurityManager(SecurityManager securityManager) {
+		this.securityManager=securityManager;
+	}
+
+	public SecurityManager getSecurityManager() {
+		return this.securityManager;
+	}
 
 }

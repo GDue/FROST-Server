@@ -18,6 +18,7 @@
 package de.fraunhofer.iosb.ilt.sta.service;
 
 import de.fraunhofer.iosb.ilt.sta.formatter.ResultFormatter;
+import de.fraunhofer.iosb.ilt.sta.security.SecurityManager;
 
 /**
  *
@@ -30,15 +31,18 @@ public class ServiceRequest {
     private String urlQuery;
     private String content;
     private ResultFormatter formatter;
+    
+    private SecurityManager securityManager;
 
     protected ServiceRequest() {
 
     }
 
-    public ServiceRequest(RequestType requestType, String url, ResultFormatter formatter, String content) {
+    public ServiceRequest(RequestType requestType, String url, ResultFormatter formatter, String content, SecurityManager securityManager) {
         this.requestType = requestType;
         this.content = content;
         this.formatter = formatter;
+        this.securityManager=securityManager;
         setUrl(url);
     }
 
@@ -121,4 +125,13 @@ public class ServiceRequest {
     public void setFormatter(ResultFormatter formatter) {
         this.formatter = formatter;
     }
+
+	public void setSecurityManager(SecurityManager securityManager) {
+		this.securityManager=securityManager;
+	}
+
+	public SecurityManager getSecurityManager() {
+		return this.securityManager;
+	}
+
 }
