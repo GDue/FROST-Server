@@ -4,19 +4,19 @@ package de.fraunhofer.iosb.ilt.sta.security;
 import de.fraunhofer.iosb.ilt.frostserver.settings.CoreSettings;
 import de.fraunhofer.iosb.ilt.frostserver.settings.Settings;
 
-public class SecurityManagerFactory {
+public class AccessManagerFactory {
 	
 	
 	static Class<?> claus=null;
 	
-	public static SecurityManager createSecurityManager() {
+	public static AccessManager createAccessManager() {
 		if (claus==null)
 			return null;
 		
-		SecurityManager sm=null;
+		AccessManager am=null;
 		
 		try {
-			sm=(SecurityManager) claus.newInstance();
+			am=(AccessManager) claus.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -24,12 +24,12 @@ public class SecurityManagerFactory {
 		}
 		
 
-		return sm;
+		return am;
 		
 	}
 
 	public static void init(CoreSettings settings) {
-		Settings secSettings=settings.getSecuritySettings();
+		Settings secSettings=settings.getSecuritySettings();	// TODO: Rename this method
 		String implementationClassName=secSettings.get("ImplementationClassName");
 		
 		if (implementationClassName==null || implementationClassName.isEmpty())

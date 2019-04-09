@@ -52,8 +52,6 @@ import de.fraunhofer.iosb.ilt.frostserver.query.OrderBy;
 import de.fraunhofer.iosb.ilt.frostserver.query.Query;
 import de.fraunhofer.iosb.ilt.frostserver.query.expression.Expression;
 import de.fraunhofer.iosb.ilt.frostserver.settings.PersistenceSettings;
-
-
 import de.fraunhofer.iosb.ilt.sta.security.pgjooq.SecurityManager;
 
 
@@ -143,9 +141,8 @@ public class QueryBuilder<J extends Comparable> implements ResourcePathVisitor {
 
     public ResultQuery<Record> buildSelect() {
     	
-//    	SecurityManager sm=this.
     	
-    	SecurityManager sm = (SecurityManager) this.staQuery.getSecurityManager();
+    	SecurityManager am = (SecurityManager) this.staQuery.getAccessManager();
     	
         gatherData();
 
@@ -163,13 +160,13 @@ public class QueryBuilder<J extends Comparable> implements ResourcePathVisitor {
         
         
         SelectJoinStep<Record> joinStep=selectStep.from(sqlFrom);
-        if (sm!=null)
-        	joinStep=sm.addGetJoins(joinStep);
+        if (am!=null)
+        	joinStep=am.addGetJoins(joinStep);
         
         
         SelectConditionStep<Record> whereStep = joinStep.where(sqlWhere);
-        if (sm!=null)
-        	whereStep=sm.addGetWhere(whereStep);
+        if (am!=null)
+        	whereStep=am.addGetWhere(whereStep);
         
         
         final List<OrderField> sortFields = getSqlSortFields();

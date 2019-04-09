@@ -18,7 +18,7 @@
 package de.fraunhofer.iosb.ilt.frostserver.service;
 
 import de.fraunhofer.iosb.ilt.frostserver.formatter.ResultFormatter;
-import de.fraunhofer.iosb.ilt.sta.security.SecurityManager;
+import de.fraunhofer.iosb.ilt.sta.security.AccessManager;
 
 /**
  *
@@ -31,7 +31,7 @@ public class ServiceRequest {
     private String urlQuery;
     private String content;
     private ResultFormatter formatter;
-	private SecurityManager securityManager;
+	private AccessManager accessManager;
 
     protected ServiceRequest() {
 
@@ -124,11 +124,11 @@ public class ServiceRequest {
         this.formatter = formatter;
     }
 
-	public void setSecurityManager(SecurityManager securityManager) {
-		this.securityManager=securityManager;
+	public void setAccessManager(AccessManager accessManager) {
+		this.accessManager=accessManager;
 	}
 
-	public SecurityManager getSecurityManager() {
-		return this.securityManager;
+	public AccessManager getAccessManager() {
+		return this.accessManager;
 	}
 }

@@ -1,6 +1,6 @@
 package de.fraunhofer.iosb.ilt.sta.security;
 
-public interface SecurityManager {
+public interface AccessManager {
 
 	/**
 	 * This will be called at the start of each request.

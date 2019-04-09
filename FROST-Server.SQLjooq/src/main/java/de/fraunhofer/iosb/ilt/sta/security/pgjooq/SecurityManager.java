@@ -1,28 +1,24 @@
 package de.fraunhofer.iosb.ilt.sta.security.pgjooq;
 
 import org.jooq.Record;
-import org.jooq.Condition;
 import org.jooq.SelectConditionStep;
 import org.jooq.SelectJoinStep;
-import org.jooq.impl.DSL;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SecurityManager implements de.fraunhofer.iosb.ilt.sta.security.SecurityManager {
+public class SecurityManager implements de.fraunhofer.iosb.ilt.sta.security.AccessManager {
 
 	String username;
 	
 	@Override
 	public boolean init(Object req, Object resp) {
 		HttpServletRequest request=(HttpServletRequest) req;
-		List<String> headerNames=java.util.Collections.list(request.getHeaderNames());
+//		List<String> headerNames=java.util.Collections.list(request.getHeaderNames());
 		String authorization=request.getHeader("authorization");
 
 		HttpServletResponse response=(HttpServletResponse) resp;
@@ -58,6 +54,11 @@ public class SecurityManager implements de.fraunhofer.iosb.ilt.sta.security.Secu
 	}
 
 	public SelectConditionStep<Record> addGetWhere(SelectConditionStep<Record> whereStep) {
+		
+		if ("*".equals(this.username))
+			return whereStep;
+		
+		
 		SelectConditionStep<Record> newWhere=whereStep.and("\"NAME\"=?", this.username);
 		return newWhere;
 	}

@@ -19,8 +19,8 @@ package de.fraunhofer.iosb.ilt.frostserver.http.common;
 
 import de.fraunhofer.iosb.ilt.frostserver.http.common.multipart.BatchProcessor;
 import de.fraunhofer.iosb.ilt.frostserver.http.common.multipart.MixedContent;
-import de.fraunhofer.iosb.ilt.sta.security.SecurityManager;
-import de.fraunhofer.iosb.ilt.sta.security.SecurityManagerFactory;
+import de.fraunhofer.iosb.ilt.sta.security.AccessManager;
+import de.fraunhofer.iosb.ilt.sta.security.AccessManagerFactory;
 import de.fraunhofer.iosb.ilt.frostserver.service.RequestType;
 import de.fraunhofer.iosb.ilt.frostserver.service.Service;
 import de.fraunhofer.iosb.ilt.frostserver.service.ServiceRequest;
@@ -141,14 +141,14 @@ public class ServletV1P0 extends HttpServlet {
         try (Service service = new Service(coreSettings)) {
         	ServiceRequest serviceRequest=serviceRequestFromHttpRequest(coreSettings, request, requestType);
         	
-            SecurityManager sm=SecurityManagerFactory.createSecurityManager();
-            if (sm!=null) {
-            	boolean refused=sm.init(request, response);
+            AccessManager am=AccessManagerFactory.createAccessManager();
+            if (am!=null) {
+            	boolean refused=am.init(request, response);
             	if (refused)
             		return;
             }
 
-            serviceRequest.setSecurityManager(sm);
+            serviceRequest.setAccessManager(am);
         	
         	ServiceResponse<Object> serviceResponse=service.execute(serviceRequest);
             sendResponse(serviceResponse, response);

@@ -281,7 +281,7 @@ public class Service implements AutoCloseable {
         try {
             query = QueryParser.parseQuery(request.getUrlQuery(), settings);
             query.validate(path);
-            query.setSecurityManager(request.getSecurityManager());
+            query.setAccessManager(request.getAccessManager());
         } catch (IllegalArgumentException ex) {
             return errorResponse(response, 400, ex.getMessage());
         }

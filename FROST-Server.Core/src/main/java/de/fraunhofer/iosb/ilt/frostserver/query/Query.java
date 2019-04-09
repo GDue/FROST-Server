@@ -26,8 +26,7 @@ import de.fraunhofer.iosb.ilt.frostserver.path.ResourcePathElement;
 import de.fraunhofer.iosb.ilt.frostserver.query.expression.Expression;
 import de.fraunhofer.iosb.ilt.frostserver.settings.CoreSettings;
 import de.fraunhofer.iosb.ilt.frostserver.util.UrlHelper;
-
-import de.fraunhofer.iosb.ilt.sta.security.SecurityManager;
+import de.fraunhofer.iosb.ilt.sta.security.AccessManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,7 +50,7 @@ public class Query {
     private List<Expand> expand;
     private List<OrderBy> orderBy;
     private String format;
-	private SecurityManager securityManager;
+	private AccessManager accessManager;
 
     public Query() {
         this(new CoreSettings());
@@ -337,12 +336,12 @@ public class Query {
         }
     }
 
-	public void setSecurityManager(SecurityManager securityManager) {
-		this.securityManager=securityManager;
+	public void setAccessManager(AccessManager accessManager) {
+		this.accessManager=accessManager;
 	}
 
-	public SecurityManager getSecurityManager() {
-		return this.securityManager;
+	public AccessManager getAccessManager() {
+		return this.accessManager;
 	}
 
 }

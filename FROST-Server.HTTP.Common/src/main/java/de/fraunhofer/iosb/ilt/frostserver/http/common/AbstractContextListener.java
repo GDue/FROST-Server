@@ -25,7 +25,7 @@ import de.fraunhofer.iosb.ilt.frostserver.settings.Settings;
 import de.fraunhofer.iosb.ilt.frostserver.util.AuthProvider;
 import de.fraunhofer.iosb.ilt.frostserver.util.GitVersionInfo;
 import de.fraunhofer.iosb.ilt.frostserver.util.StringHelper;
-import de.fraunhofer.iosb.ilt.sta.security.SecurityManagerFactory;
+import de.fraunhofer.iosb.ilt.sta.security.AccessManagerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
@@ -87,7 +87,7 @@ public abstract class AbstractContextListener implements ServletContextListener 
             MessageBusFactory.init(coreSettings);
 
             
-            SecurityManagerFactory.init(coreSettings);
+            AccessManagerFactory.init(coreSettings);
             
             setupAuthFilter(context, coreSettings);
         }
